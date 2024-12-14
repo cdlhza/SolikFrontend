@@ -1,15 +1,15 @@
 import {useForm} from 'react-hook-form';
 import { useAuth } from '../context/AuthContext';
-import { useEffect , useState} from 'react';
+import { useEffect } from 'react';
 import { useNavigate, Link} from 'react-router-dom';
 import  {IoPersonAdd, IoLogIn} from 'react-icons/io5'
-import ReCaptcha from 'react-google-recaptcha'
+
 
 function RegisterPage() {
     const {register,handleSubmit, formState:{errors}}= useForm();
     const {signup,isAuthenticated, errors:registerErrors}=useAuth();
     const navigate = useNavigate();
-    const[captchaValue, setCaptchaValue]= useState(null)
+    
     useEffect(() => {
       if(isAuthenticated)
         navigate('/products')
@@ -82,14 +82,11 @@ function RegisterPage() {
   
 <button className='bg-zinc-700 px-3 py-3 my-3 rounded-none'
                   type='submit'
-                  disabled={!captchaValue}>
+                  >
                     <IoPersonAdd size={30}/>
                   </button>
                   
-                  <ReCaptcha
-                  sitekey='6LeynJMqAAAAANFEJuLNJ1u6uvlw_RBTBfKIA3xT'
-                  onChange={(value)=> setCaptchaValue(value)}
-                  />
+                  
        </form>
        <p className='flex gap-x-2 justify-between pt-5 mt-5'>
             Ya tienes una cuenta??
