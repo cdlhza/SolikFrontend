@@ -1,7 +1,91 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-body{
-  background: #202020;  
-  color: white;
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap");
+
+body {
+  background: #210303; /* Fondo oscuro */
+  color: #ffffff; /* Texto blanco */
+  font-family: "Orbitron", sans-serif; /* Fuente futurista */
+}
+
+/* Estilos generales para los menús y botones */
+.neon {
+  color: #ffcc00; /* Texto amarillo neón */
+  text-shadow:
+    0 0 5px #ffcc00,
+    0 0 10px #ffcc00,
+    0 0 15px #ffcc00; /* Efecto de neón */
+  font-family: "Orbitron", sans-serif; /* Asegura que los textos neón también usen la fuente futurista */
+}
+
+.neon-outline {
+  border: 1px solid #ffcc00; /* Borde amarillo neón */
+  box-shadow:
+    0 0 5px #ffcc00,
+    inset 0 0 5px #ffcc00; /* Sombra interna y externa de neón */
+}
+
+/* Estilo para los botones */
+button {
+  background: #3a3a3a; /* Fondo gris oscuro */
+  color: #ffffff; /* Texto blanco */
+  border: 1px solid #ffcc00; /* Borde amarillo neón */
+  box-shadow: 0 0 5px #ffcc00; /* Sombra de neón */
+  padding: 10px 20px; /* Espaciado */
+  font-size: 16px; /* Tamaño de fuente */
+  border-radius: 5px; /* Bordes redondeados */
+  font-family: "Orbitron", sans-serif; /* Fuente futurista */
+}
+
+button:hover {
+  background: #5a5a5a; /* Fondo gris medio en hover */
+  box-shadow: 0 0 15px #ffcc00; /* Sombra de neón más intensa al pasar el ratón */
+}
+
+/* Estilo para los encabezados */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #ffcc00; /* Texto amarillo neón */
+  text-shadow:
+    0 0 3px #ffcc00,
+    0 0 6px #ffcc00; /* Efecto de neón */
+  font-family: "Orbitron", sans-serif; /* Asegura que los encabezados también usen la fuente futurista */
+}
+
+/* Estilo para los enlaces */
+a {
+  color: #ff4500; /* Enlaces de color rojizo */
+  text-decoration: none; /* Sin subrayado */
+  transition: text-shadow 0.3s; /* Transición suave para el efecto de neón */
+  font-family: "Orbitron", sans-serif; /* Fuente futurista */
+}
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #ffcc00; /* Color de los iconos de neón */
+}
+
+/* Añadir efectos para el menú desplegable */
+nav .hidden {
+  display: none;
+}
+
+nav .block {
+  display: block;
+}
+
+a:hover {
+  text-shadow: 0 0 10px #ff4500; /* Efecto de neón más intenso al pasar el ratón */
+}
+
+/* Color de la selección */
+::selection {
+  background: #ff4500; /* Fondo rojizo al seleccionar texto */
+  color: #ffffff; /* Texto blanco al seleccionar */
 }

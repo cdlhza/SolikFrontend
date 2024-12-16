@@ -1,60 +1,108 @@
-import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import  {IoPersonAdd, IoLogIn, IoAddCircle, IoLogOut, IoPerson} from 'react-icons/io5'
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import {
+  IoPersonAdd,
+  IoLogIn,
+  IoAddCircle,
+  IoLogOut,
+  IoPerson,
+  IoCart,
+  IoHome, // Icono para la página principal
+  IoList, // Icono para la lista de productos
+} from "react-icons/io5";
 
 function Navbar() {
-    const {isAuthenticated, logout, user}= useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
+
   return (
-    <nav className="bg-zinc-700 my-3 flex justify-between items-start
-    py-5 px-10 rounded-lg">
-        <Link to={
-          isAuthenticated ? '/products' : '/'}
+    <nav className="fixed top-0 left-0 w-64 h-full bg-[#3a3a3a] text-white z-50 p-4">
+      <h2 className="text-center font-bold text-yellow-500 neon">Menú</h2>
+      <ul className="flex flex-col gap-4">
+        {/* Ruta hacia la página principal */}
+        <li>
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-sm font-semibold bg-zinc-300 rounded-md px-2 py-1 hover:bg-yellow-500"
           >
-        <h1 className="text-2xl font-bold">Productos</h1> 
-        </Link>
-      <ul className="flex gap-x-2">
-        {
-            isAuthenticated?(
-                <>
-                     <li>
-                      <div className='flex mx-3 px-3'>
-                       <IoPerson size={30}/> {user.username}
-                        </div>
-                     </li>
-                     <li>
-                        <Link to='/add-product'
-                         className='bg-zinc-500 rounded-sm'
-                         ><IoAddCircle  size={30}/>
-                         </Link>
-                     </li>
-                     <li>
-                        <Link to='/' onClick={()=>{logout()}}
-                         className='bg-zinc-500   rounded-sm'
-                         >
-                        <IoLogOut size={30}/>
-                        </Link>
-                     </li>
-                </>
-            ):(
-                <>
-                     <li>
-                        <Link to='/Login'
-                        className='bg-zinc-500 rounded-sm'
-                        >
-                          <IoLogIn  size={30}/>
-                        </Link>
-                     </li>
-                     <li>
-                     <Link to="/register"
-                      className='bg-zinc-500   rounded-sm'
-                      >
-                        <IoPersonAdd size={30}/>
-                      </Link>
-                     </li>
-                </>
-            )
-        }
-        
+            <IoHome size={16} /> Página Principal
+          </Link>
+        </li>
+
+        {/* Siempre mostrar productos */}
+        <li>
+          <Link
+            to={isAuthenticated ? "/products" : "/"}
+            className="flex items-center gap-2 text-sm font-semibold bg-zinc-300 rounded-md px-2 py-1 hover:bg-yellow-500"
+          >
+            <IoList size={16} /> Productos
+          </Link>
+        </li>
+
+        {isAuthenticated ? (
+          <>
+            {/* Mostrar nombre de usuario en el perfil */}
+            <li className="flex items-center gap-2">
+              <IoPerson size={16} />
+              <span className="text-sm items-center font-semibold">
+                {user.username}
+              </span>
+            </li>
+            {/* Mostrar opciones solo si está autenticado */}
+            <li>
+              <Link
+                to="/add-product"
+                className="flex items-center gap-2 text-sm font-semibold bg-zinc-900 rounded-md px-2 py-1 hover:bg-yellow-500"
+              >
+                <IoAddCircle size={16} /> Agregar Producto
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/profile"
+                className="flex items-center gap-2 text-sm font-semibold bg-zinc-900 rounded-md px-2 py-1 hover:bg-yellow-500"
+              >
+                <IoPerson size={16} /> {user.username}
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/cart"
+                className="flex items-center gap-2 text-sm font-semibold bg-zinc-900 rounded-md px-2 py-1 hover:bg-yellow-500"
+              >
+                <IoCart size={16} /> Carrito
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/"
+                onClick={() => logout()}
+                className="flex items-center gap-2 text-sm font-semibold bg-red-600 rounded-md px-2 py-1 hover:bg-red-500"
+              >
+                <IoLogOut size={16} /> Logout
+              </Link>
+            </li>
+          </>
+        ) : (
+          <>
+            {/* Mostrar opciones solo si no está autenticado */}
+            <li>
+              <Link
+                to="/login"
+                className="flex items-center gap-2 text-sm font-semibold bg-zinc-600 rounded-md px-2 py-1 hover:bg-yellow-500"
+              >
+                <IoLogIn size={16} /> Iniciar Sesión
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/register"
+                className="flex items-center gap-2 text-sm font-semibold bg-zinc-600 rounded-md px-2 py-1 hover:bg-yellow-500"
+              >
+                <IoPersonAdd size={16} /> Registrarse
+              </Link>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
