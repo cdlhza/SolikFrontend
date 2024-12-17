@@ -1,60 +1,56 @@
-import PropTypes from 'prop-types';
-import { useProducts } from '../context/ProductContext';
-import { Link } from 'react-router-dom';
-import { IoTrashBinSharp, IoPencilSharp } from 'react-icons/io5';
+import React from "react";
+import { Link } from "react-router-dom";
 
-function ProductCard({ product }) {
-  const { deletProduct } = useProducts();
-  const server = import.meta.env.VITE_BASE_URL+"/img/";
+function ProductCard({ product, onAddToCart, onEditProduct, onDeleteProduct }) {
+  const server = import.meta.env.VITE_BASE_URL + "/img/";
 
   return (
-    <div className="bg-zinc-800 max-w-sm w-full p-5 rounded-sm shadow-md">
-      <header className="flex justify-between items-center mb-4">
-        <h1 className="text-xl font-bold text-white">{product.name}</h1>
-        <div className="flex gap-2">
+    <div className="bg-gray-800 p-4 rounded-lg shadow-lg">
+      {/* Imagen del producto */}
+      <img
+        src={`${server}${product.image}`}
+        alt={product.name}
+        className="w-full h-48 object-cover rounded-lg mb-4"
+      />
+
+      {/* Información del producto */}
+      <h2 className="text-xl font-bold text-white mb-2">{product.name}</h2>
+      <p className="text-gray-400 mb-2">Precio: ${product.price}</p>
+      <p className="text-gray-400 mb-4">
+        Stock disponible: {product.year || "N/A"}
+      </p>
+
+      <div className="flex justify-between">
+        {/* Botón para agregar al carrito */}
+        {onAddToCart && (
           <button
-            className="bg-red-500 hover:bg-red-600 text-white p-2 rounded-lg"
-            onClick={() => deletProduct(product._id)}
+            onClick={() => onAddToCart(product)}
+            className="bg-green-500 hover:bg-green-400 text-white px-4 py-2 rounded-lg font-bold"
           >
-            <IoTrashBinSharp />
+            Agregar al carrito
           </button>
+        )}
+
+        {/* Botones de acciones para productos (Editar y Eliminar) */}
+        {onEditProduct && (
           <Link
             to={`/products/${product._id}`}
-            className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg"
+            className="bg-yellow-500 hover:bg-yellow-400 text-white px-4 py-2 rounded-lg font-bold"
           >
-            <IoPencilSharp />
+            Editar
           </Link>
-        </div>
-      </header>
-
-      <div className="flex justify-center mb-4">
-        <img
-          src={`${server}${product.image}`}
-          alt={product.name}
-          className="max-h-[200px] object-contain"
-        />
-      </div>
-
-      <div className="flex justify-between text-slate-300">
-        <p>
-          <span className="font-semibold">Precio: </span>${product.price}
-        </p>
-        <p>
-          <span className="font-semibold">Año: </span>{product.year}
-        </p>
+        )}
+        {onDeleteProduct && (
+          <button
+            onClick={() => onDeleteProduct(product._id)}
+            className="bg-red-500 hover:bg-red-400 text-white px-4 py-2 rounded-lg font-bold"
+          >
+            Eliminar
+          </button>
+        )}
       </div>
     </div>
   );
 }
 
 export default ProductCard;
-
-ProductCard.propTypes = {
-  product: PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    year: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  }).isRequired,
-};

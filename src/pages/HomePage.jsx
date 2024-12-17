@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar"; // Importa el Navbar
+import { Link } from "react-router-dom";
+import { useProducts } from "../context/ProductContext"; // Importa el contexto de productos
 
 function HomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { getProducts, products } = useProducts(); // Accede a los productos desde el contexto
+  const toggleMenu = () => setMenuOpen(!menuOpen); // Alterna el estado del menú
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen); // Alterna el estado del menú
-  };
+  const server = import.meta.env.VITE_BASE_URL + "/img/"; // Asegúrate de tener la URL base correcta
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      await getProducts(); // Obtén los productos al cargar la página
+    };
+
+    fetchProducts();
+  }, [getProducts]);
+
+  if (products.length === 0) {
+    return <h1>Cargando productos...</h1>; // Si no hay productos, muestra un mensaje de carga
+  }
 
   return (
     <div className="bg-[#210303] text-white min-h-screen">
@@ -50,27 +64,23 @@ function HomePage() {
 
         {/* Productos destacados */}
         <section className="my-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 bg-[#3a3a3a] rounded-lg shadow-lg text-center neon-outline">
-            <h2 className="text-2xl mb-4 neon">Producto 1</h2>
-            <p>Descripción breve del producto.</p>
-            <button className="mt-4 bg-[#ff00ff] text-[#1a0d16] px-4 py-2 rounded hover:bg-[#5a5a5a]">
-              Comprar
-            </button>
-          </div>
-          <div className="p-4 bg-[#3a3a3a] rounded-lg shadow-lg text-center neon-outline">
-            <h2 className="text-2xl mb-4 neon">Producto 2</h2>
-            <p>Descripción breve del producto.</p>
-            <button className="mt-4 bg-[#ff00ff] text-[#1a0d16] px-4 py-2 rounded hover:bg-[#5a5a5a]">
-              Comprar
-            </button>
-          </div>
-          <div className="p-4 bg-[#3a3a3a] rounded-lg shadow-lg text-center neon-outline">
-            <h2 className="text-2xl mb-4 neon">Producto 3</h2>
-            <p>Descripción breve del producto.</p>
-            <button className="mt-4 bg-[#ff00ff] text-[#1a0d16] px-4 py-2 rounded hover:bg-[#5a5a5a]">
-              Comprar
-            </button>
-          </div>
+          {products.map((product) => (
+            <Link to={`/product/${product._id}`} key={product._id}>
+              <div className="p-4 bg-[#3a3a3a] rounded-lg shadow-lg text-center neon-outline">
+                {/* Aquí usamos la URL base para las imágenes */}
+                <img
+                  src={`${server}${product.image}`} // Utiliza el mismo patrón que en ProductCard
+                  alt={product.name}
+                  className="w-full h-48 object-cover rounded-md"
+                />
+                <h2 className="text-2xl mb-4 neon">{product.name}</h2>
+                <p>{product.description}</p>
+                <button className="mt-4 bg-[#ff00ff] text-[#1a0d16] px-4 py-2 rounded hover:bg-[#5a5a5a]">
+                  Comprar
+                </button>
+              </div>
+            </Link>
+          ))}
         </section>
 
         {/* Galería de imágenes */}

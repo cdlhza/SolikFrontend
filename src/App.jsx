@@ -8,6 +8,7 @@ import ProductsPage from "./pages/ProductsPage";
 import ProductsFormPage from "./pages/ProductsFormPage";
 import CartPage from "./pages/CartPage";
 import ProtectedRoute from "./ProtectedRoute";
+import ProductDetailPage from "./pages/ProductDetailPage";
 import { ProductsProvider } from "./context/ProductContext";
 import NotFound from "./pages/NotFound";
 
@@ -22,6 +23,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/product/:id" element={<ProductDetailPage />} />
 
               {/* Rutas protegidas */}
               <Route element={<ProtectedRoute />}>

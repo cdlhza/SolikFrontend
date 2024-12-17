@@ -1,40 +1,39 @@
-import { useEffect } from "react";
+import React from "react";
 import { useProducts } from "../context/ProductContext";
 import ProductCard from "../components/ProductCard";
-import Navbar from "../components/Navbar"; // Asegúrate de que esté importado correctamente
-import { IoMenu } from "react-icons/io5"; // Icono del botón del menú
+import Navbar from "../components/Navbar"; // Importamos la barra de navegación
+import { Link } from "react-router-dom"; // Importamos el componente Link para navegación
 
 function ProductsPage() {
-  const { getProducts, products } = useProducts();
-
-  // Ejecutamos la función getProducts inmediatamente después de que se cargue el componente
-  useEffect(() => {
-    getProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (products.length === 0) return <h1>No hay productos para listar</h1>;
+  const { products, deleteProduct } = useProducts();
 
   return (
     <div className="flex">
-      {/* Sidebar estática */}
-      <div className="w-64 bg-zinc-700 text-white h-screen fixed left-0 top-0">
-        <div className="flex flex-col p-4">
-          <Navbar /> {/* Navbar ubicada en el sidebar */}
-        </div>
-      </div>
+      {/* Navbar fija a la izquierda */}
+      <Navbar />
 
-      {/* Contenido de la página */}
+      {/* Contenido principal */}
       <div className="ml-64 p-4 w-full">
-        {/* Botón para desplegar el menú solo en pantallas pequeñas */}
-        <button className="lg:hidden text-3xl text-yellow-500 mb-4">
-          <IoMenu /> {/* Icono del menú */}
-        </button>
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-bold">Gestión de Productos</h1>
+          <Link
+            to="/add-product"
+            className="bg-yellow-500 text-white py-2 px-4 rounded-lg hover:bg-yellow-400 transition"
+          >
+            Agregar Producto
+          </Link>
+        </div>
 
-        {/* Contenido de productos */}
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2">
+        {/* Cuadros de productos en disposición horizontal */}
+        <div className="flex overflow-x-auto gap-6">
           {products.map((product) => (
-            <ProductCard product={product} key={product._id} />
+            <div key={product._id} className="flex-shrink-0">
+              <ProductCard
+                product={product}
+                onEditProduct={true} // Muestra el botón de Editar
+                onDeleteProduct={deleteProduct} // Muestra el botón de Eliminar
+              />
+            </div>
           ))}
         </div>
       </div>
