@@ -18,10 +18,6 @@ function HomePage() {
     fetchProducts();
   }, [getProducts]);
 
-  if (products.length === 0) {
-    return <h1>Cargando productos...</h1>; // Si no hay productos, muestra un mensaje de carga
-  }
-
   return (
     <div className="bg-[#210303] text-white min-h-screen">
       {/* Botón de menú */}

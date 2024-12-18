@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     async function checkLogin() {
       const cookies = Cookies.get(); // Obtenemos las cookies almacenadas en el cliente
-      // console.log(cookies.token); // (opcional) Para depuración: mostrar el token en la consola
+      console.log(cookies.token); // (opcional) Para depuración: mostrar el token en la consola
 
       if (!cookies.token) {
         setIsAuthenticated(false);
